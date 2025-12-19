@@ -10,14 +10,17 @@ int main(int ac, char **av, char **env)
 	ssize_t nread;
 	char *str;
 	pid_t child_pid;
-	char *args;
+	char *args[2];
 	int status;
-	
+	char *token;
+	(void)av;
+	(void)ac;
+
 	while (1)
 	{
 		printf("$ ");
 		nread = getline(&str, &len, stdin);
-
+		token = strtok(str, "\n");
 		if (nread == -1)
 		{
 			break;
@@ -31,17 +34,17 @@ int main(int ac, char **av, char **env)
 		}
 		if (child_pid == 0)
 		{
-			args = malloc(sizeof)
-			if (execve(&str, args, env) == -1)
+			args[0] = token;
+			args[1] = NULL;
+			if (execve(token, args, env) == -1)
 			{
-				free(str);
 				perror("Error:");
+				return(1);
 			}
 		}
 		else
 		{
 			wait(&status);
-			free(str);
 		}
 	}
 	free(str);
