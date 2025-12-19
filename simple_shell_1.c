@@ -7,11 +7,10 @@
 int main(int ac, char **av, char **env)
 {
 	size_t len;
+	size_t arr_len = 1;
 	ssize_t nread;
-	char *str;
-	pid_t child_pid;
-	char *args[2];
-	int status;
+	char *str, *str_cpy;
+	char **args;
 	char *token;
 	(void)av;
 	(void)ac;
@@ -20,32 +19,13 @@ int main(int ac, char **av, char **env)
 	{
 		printf("$ ");
 		nread = getline(&str, &len, stdin);
-		token = strtok(str, "\n");
+		str_cpy = strdup(str);
+		token = strtok(str, "\n \t");
 		if (nread == -1)
-		{
 			break;
-		}
-		child_pid = fork();
-		if (child_pid == -1)
-		{
-			free(str);
-			perror("Error:");
-			return (1);
-		}
-		if (child_pid == 0)
-		{
-			args[0] = token;
-			args[1] = NULL;
-			if (execve(token, args, env) == -1)
-			{
-				perror("Error:");
-				return(1);
-			}
-		}
-		else
-		{
-			wait(&status);
-		}
+		if (!token)
+			continue;
+		args = malloc(sizeof(char *) * arr_len)
 	}
 	free(str);
 	return (0);
