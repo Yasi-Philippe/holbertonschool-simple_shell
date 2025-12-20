@@ -6,12 +6,10 @@
  */
 int main(int ac, char **av, char **env)
 {
-	size_t len;
-	size_t arr_len = 1;
+	size_t len, arr_len, i;
 	ssize_t nread;
-	char *str, *str_cpy;
+	char *str_cpy, *token, *str;
 	char **args;
-	char *token;
 	(void)av;
 	(void)ac;
 
@@ -19,14 +17,47 @@ int main(int ac, char **av, char **env)
 	{
 		printf("$ ");
 		nread = getline(&str, &len, stdin);
-		str_cpy = strdup(str);
-		token = strtok(str, "\n \t");
 		if (nread == -1)
+		{
+			free(str);
 			break;
+		}
+		if (!str)
+			return(1);
+		token = strtok(str, "\n ");
 		if (!token)
 			continue;
-		args = malloc(sizeof(char *) * arr_len)
+		arr_len = 1;
+		while (token)
+		{
+			token = strtok(NULL, "\n ");
+			arr_len += 1;
+		}
+		str_cpy = strdup(str);
+		free(str);
+		args = malloc(sizeof(char *) * arr_len);
+		if (!args)
+			return (1);
+		token = strtok(str_cpy, "\n ");
+		i = 0;
+		while (token)
+		{
+			args[i] = malloc(strlen(token) + 1);
+			if (!args[i])
+				return (1);
+			args[i] = 
+			token = strtok(NULL, "\n ");
+			i++;
+		}
+		args[i] = NULL;
+		fork_shell(args, env);
+		i = 0;
+		while (args[i])
+		{
+			free(args[i]);
+			i++;
+		}
+		free(args);
 	}
-	free(str);
 	return (0);
 }
