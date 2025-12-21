@@ -9,4 +9,7 @@
 #include <sys/wait.h>
 #include <sys/stat.h>
 
+void fork_shell(char *args[], char **env);
+char **arr_strtok(char *str);
+
 #endif
