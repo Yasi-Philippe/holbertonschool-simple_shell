@@ -1,18 +1,19 @@
 #include "main.h"
 
 /**
- * main - blablabla
- * 
+ * main - Shell Function. Takes commands as input and execcute the programs
+ * linked to these commands.
+ * @ac: Number of arguments provided (Void)
+ * @av: Array with the arguments provided (Void)
+ * @env: Environment to pass into the children processes.
+ * Return: 1 on error. 0 on success.
  */
 int main(int ac, char **av, char **env)
 {
-	size_t len;
+	size_t len, i;
 	ssize_t nread;
 	char *str;
-	pid_t child_pid;
-	char *args[2];
-	int status;
-	char *token;
+	char **args;
 	(void)av;
 	(void)ac;
 
@@ -20,33 +21,22 @@ int main(int ac, char **av, char **env)
 	{
 		printf("$ ");
 		nread = getline(&str, &len, stdin);
-		token = strtok(str, "\n");
 		if (nread == -1)
-		{
 			break;
-		}
-		child_pid = fork();
-		if (child_pid == -1)
-		{
-			free(str);
-			perror("Error:");
+		if (nread == 1 && *str == '\n')
+			continue;
+		args = arr_strtok(str);
+		if (!args)
 			return (1);
-		}
-		if (child_pid == 0)
+		fork_shell(args, env);
+		i = 0;
+		while (args[i])
 		{
-			args[0] = token;
-			args[1] = NULL;
-			if (execve(token, args, env) == -1)
-			{
-				perror("Error:");
-				return(1);
-			}
+			free(args[i]);
+			i++;
 		}
-		else
-		{
-			wait(&status);
-		}
+		free(args[i]);
+		free(args);
 	}
-	free(str);
 	return (0);
 }
