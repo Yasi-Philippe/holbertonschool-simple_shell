@@ -19,6 +19,9 @@ int main(int ac, char **av, char **env)
 		nread = getline(&str, &len, stdin);
 		if (nread == -1)
 			break;
+		str_cpy = strdup(str);
+		if (!str_cpy)
+			return (1);
 		token = strtok(str, "\n ");
 		if (!token)
 			continue;
@@ -28,7 +31,6 @@ int main(int ac, char **av, char **env)
 			token = strtok(NULL, "\n ");
 			arr_len++;
 		}
-		str_cpy = strdup(str);
 		free(str);
 		args = malloc(sizeof(char *) * arr_len);
 		if (!args)
@@ -40,10 +42,11 @@ int main(int ac, char **av, char **env)
 			args[i] = malloc(strlen(token) + 1);
 			if (!args[i])
 				return (1);
-			args[i] = 
+			strcpy(args[i], token);
 			token = strtok(NULL, "\n ");
 			i++;
 		}
+		free(str_cpy);
 		args[i] = NULL;
 		fork_shell(args, env);
 		i = 0;
@@ -52,6 +55,7 @@ int main(int ac, char **av, char **env)
 			free(args[i]);
 			i++;
 		}
+		free(args[i]);
 		free(args);
 	}
 	return (0);
