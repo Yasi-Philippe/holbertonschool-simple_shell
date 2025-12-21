@@ -1,8 +1,10 @@
 #include "main.h"
 
 /**
- * fork_shell - blablabla
- * 
+ * fork_shell - Function that forks the main processus into a child and
+ * executes the program linked to the comand given in the child processus.
+ * @args: Array of strings containing the input words.
+ * @env: ENvironment.
  */
 
 void fork_shell(char *args[], char **env)

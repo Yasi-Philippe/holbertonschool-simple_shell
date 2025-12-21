@@ -1,8 +1,9 @@
 #include "main.h"
 
 /**
- * main - blablabla
- * 
+ * arr_strtok - Takes a string as input and returns an array of strings.
+ * @str: Input string.
+ * Return: An array of strings.
  */
 char **arr_strtok(char *str)
 {
@@ -37,5 +38,5 @@ char **arr_strtok(char *str)
 	}
 	free(str_cpy);
 	args[i] = NULL;
-	return(args);
+	return (args);
 }

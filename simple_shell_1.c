@@ -1,8 +1,12 @@
 #include "main.h"
 
 /**
- * main - blablabla
- * 
+ * main - Shell Function. Takes commands as input and execcute the programs
+ * linked to these commands.
+ * @ac: Number of arguments provided (Void)
+ * @av: Array with the arguments provided (Void)
+ * @env: Environment to pass into the children processes.
+ * Return: 1 on error. 0 on success.
  */
 int main(int ac, char **av, char **env)
 {
