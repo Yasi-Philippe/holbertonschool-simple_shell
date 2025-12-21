@@ -19,7 +19,6 @@ int main(int ac, char **av, char **env)
 
 	while (1)
 	{
-		printf("$ ");
 		nread = getline(&str, &len, stdin);
 		if (nread == -1)
 			break;
