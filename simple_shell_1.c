@@ -6,9 +6,9 @@
  */
 int main(int ac, char **av, char **env)
 {
-	size_t len, arr_len, i;
+	size_t len, i;
 	ssize_t nread;
-	char *str_cpy, *token, *str;
+	char *str;
 	char **args;
 	(void)av;
 	(void)ac;
@@ -19,35 +19,11 @@ int main(int ac, char **av, char **env)
 		nread = getline(&str, &len, stdin);
 		if (nread == -1)
 			break;
-		str_cpy = strdup(str);
-		if (!str_cpy)
-			return (1);
-		token = strtok(str, "\n ");
-		if (!token)
+		if (nread == 1 && *str == '\n')
 			continue;
-		arr_len = 1;
-		while (token)
-		{
-			token = strtok(NULL, "\n ");
-			arr_len++;
-		}
-		free(str);
-		args = malloc(sizeof(char *) * arr_len);
+		args = arr_strtok(str);
 		if (!args)
 			return (1);
-		token = strtok(str_cpy, "\n ");
-		i = 0;
-		while (token)
-		{
-			args[i] = malloc(strlen(token) + 1);
-			if (!args[i])
-				return (1);
-			strcpy(args[i], token);
-			token = strtok(NULL, "\n ");
-			i++;
-		}
-		free(str_cpy);
-		args[i] = NULL;
 		fork_shell(args, env);
 		i = 0;
 		while (args[i])
