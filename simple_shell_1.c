@@ -18,12 +18,7 @@ int main(int ac, char **av, char **env)
 		printf("$ ");
 		nread = getline(&str, &len, stdin);
 		if (nread == -1)
-		{
-			free(str);
 			break;
-		}
-		if (!str)
-			return(1);
 		token = strtok(str, "\n ");
 		if (!token)
 			continue;
@@ -31,7 +26,7 @@ int main(int ac, char **av, char **env)
 		while (token)
 		{
 			token = strtok(NULL, "\n ");
-			arr_len += 1;
+			arr_len++;
 		}
 		str_cpy = strdup(str);
 		free(str);
