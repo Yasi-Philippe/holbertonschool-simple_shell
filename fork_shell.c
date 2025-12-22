@@ -29,17 +29,17 @@ void fork_shell(char *args[], char **env)
 	}
 	else
 	{
-		if(wait(&status) == -1)
+		if (wait(&status) == -1)
+		{
+			i = 0;
+			while (args[i])
 			{
-				i = 0;
-				while (args[i])
-				{
-					free(args[i]);
-					i++;
-				}
-				free(args);
-				perror("Error");
-				exit(1);
+				free(args[i]);
+				i++;
 			}
+			free(args);
+			perror("Error");
+			exit(1);
+		}
 	}
 }
