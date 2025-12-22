@@ -22,7 +22,7 @@ char **arr_strtok(char *str)
 	{
 		free(str);
 		exit(1);
-	}	
+	}
 	token = strtok(str, "\n ");
 	i = 0;
 	while (token)
