@@ -37,5 +37,6 @@ int main(int ac, char **av, char **env)
 		}
 		free(args);
 	}
+	free(str);
 	return (0);
 }
