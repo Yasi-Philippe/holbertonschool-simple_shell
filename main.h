@@ -11,5 +11,6 @@
 
 void fork_shell(char *args[], char **env);
 char **arr_strtok(char *str);
+size_t strtok_arr_len(char *str);
 
 #endif
