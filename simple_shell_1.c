@@ -19,6 +19,7 @@ int main(int ac, char **av, char **env)
 
 	while (1)
 	{
+		str = NULL;
 		nread = getline(&str, &len, stdin);
 		if (nread == -1)
 			break;
@@ -34,7 +35,6 @@ int main(int ac, char **av, char **env)
 			free(args[i]);
 			i++;
 		}
-		free(args[i]);
 		free(args);
 	}
 	return (0);

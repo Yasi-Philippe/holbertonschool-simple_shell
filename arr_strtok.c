@@ -13,7 +13,10 @@ char **arr_strtok(char *str)
 
 	str_cpy = strdup(str);
 	if (!str_cpy)
+	{
+		free(str);
 		exit(1);
+	}
 	token = strtok(str, "\n ");
 	arr_len = 1;
 	while (token)
@@ -31,7 +34,16 @@ char **arr_strtok(char *str)
 	{
 		args[i] = malloc(strlen(token) + 1);
 		if (!args[i])
-			return (NULL);
+		{
+			while(i > 0)
+			{
+				i--;
+				free (args[i]);
+			}
+			free(args[i]);
+			free(args);
+			exit(1);
+		}
 		strcpy(args[i], token);
 		token = strtok(NULL, "\n ");
 		i++;
