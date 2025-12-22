@@ -23,6 +23,13 @@ void fork_shell(char *args[], char **env)
 	{
 		if (execve(args[0], args, env) == -1)
 		{
+			i = 0;
+			while (args[i])
+			{
+				free(args[i]);
+				i++;
+			}
+			free(args);
 			perror("Error");
 			exit(1);
 		}
