@@ -12,9 +12,17 @@ char **arr_strtok(char *str)
 	size_t i, arr_len;
 
 	arr_len = strtok_arr_len(str);
+	if (arr_len == 1)
+	{
+		free(str);
+		return (NULL);
+	}
 	args = malloc(sizeof(char *) * arr_len);
 	if (!args)
-		return (NULL);
+	{
+		free(str);
+		exit(1);
+	}	
 	token = strtok(str, "\n ");
 	i = 0;
 	while (token)

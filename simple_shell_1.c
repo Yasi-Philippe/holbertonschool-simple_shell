@@ -23,11 +23,9 @@ int main(int ac, char **av, char **env)
 		nread = getline(&str, &len, stdin);
 		if (nread == -1)
 			break;
-		if (nread == 1 && *str == '\n')
-			continue;
 		args = arr_strtok(str);
 		if (!args)
-			return (1);
+			continue;
 		fork_shell(args, env);
 		i = 0;
 		while (args[i])
