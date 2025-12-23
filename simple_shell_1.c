@@ -26,6 +26,13 @@ int main(int ac, char **av, char **env)
 		args = arr_strtok(str);
 		if (!args)
 			continue;
+		if (access(args[0], X_OK) != 0)
+			args = find_path(args, env);
+		if (!args)
+		{
+			free_args(args);
+			continue;
+		}
 		fork_shell(args, env);
 		free_args(args);
 	}
