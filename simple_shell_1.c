@@ -10,7 +10,7 @@
  */
 int main(int ac, char **av, char **env)
 {
-	size_t len, i;
+	size_t len;
 	ssize_t nread;
 	char *str;
 	char **args;
@@ -27,13 +27,7 @@ int main(int ac, char **av, char **env)
 		if (!args)
 			continue;
 		fork_shell(args, env);
-		i = 0;
-		while (args[i])
-		{
-			free(args[i]);
-			i++;
-		}
-		free(args);
+		free_args(args);
 	}
 	free(str);
 	return (0);
