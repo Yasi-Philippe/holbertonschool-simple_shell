@@ -12,6 +12,7 @@ char **find_path(char *args[], char **env)
 	char *token;
 	char *token_2;
 	char *my_path;
+	char *my_path_2;
 
 	while (env[i])
 	{
@@ -23,12 +24,12 @@ char **find_path(char *args[], char **env)
 			while (token_2)
 			{
 				my_path = strcat(token_2, "/");
-				my_path = strcat(my_path, args[0]);
-				if (access(my_path, X_OK) == 0)
+				my_path_2 = strcat(my_path, args[0]);
+				if (access(my_path_2, X_OK) == 0)
 				{
 					free(args[0]);
-					args[0] = malloc(strlen(my_path) + 1);
-					strcpy(args[0], my_path);
+					args[0] = malloc(strlen(my_path_2) + 1);
+					strcpy(args[0], my_path_2);
 					return (args);
 				}
 				token_2 = strtok(NULL, ":");
