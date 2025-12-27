@@ -11,12 +11,15 @@ char **find_path(char *args[], char **env)
 	size_t i = 0;
 	char *token;
 	char *my_path;
+	char *path_copy;
 
 	while (env[i])
 	{
 		if (strncmp(env[i], "PATH", 4) == 0)
 		{
-			token = strtok(env[i], "=");
+			path_copy = malloc(sizeof(char) * (strlen(env[i]) + 1));
+			strcpy(path_copy, env[i]);
+			token = strtok(path_copy, "=");
 			token = strtok(NULL, ":");
 			while (token)
 			{
@@ -28,19 +31,16 @@ char **find_path(char *args[], char **env)
 					free(args[0]);
 					args[0] = malloc(strlen(my_path) + 1);
 					strcpy(args[0], my_path);
+					free(my_path);
+					free(path_copy);
 					return (args);
 				}
-				printf("%s\n", token);
-				printf("%s\n", my_path);
 				token = strtok(NULL, ":");
 				free(my_path);
-				printf("after free\n");
-				
 			}
+			free(path_copy);
 		}
 		i++;
-		printf("%li\n", i);
 	}
-	printf("returning NULL\n");
 	return (NULL);
 }
