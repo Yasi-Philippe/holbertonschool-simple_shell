@@ -10,30 +10,35 @@ char **find_path(char *args[], char **env)
 {
 	size_t i = 0;
 	char *token;
-	char *token_2;
 	char *my_path;
-	char *my_path_2;
+	char *path_copy;
 
 	while (env[i])
 	{
 		if (strncmp(env[i], "PATH", 4) == 0)
 		{
-			token = strtok(env[i], "=");
-			token = strtok(NULL, "=");
-			token_2 = strtok(token, ":");
-			while (token_2)
+			path_copy = malloc(sizeof(char) * (strlen(env[i]) + 1));
+			strcpy(path_copy, env[i]);
+			token = strtok(path_copy, "=");
+			token = strtok(NULL, ":");
+			while (token)
 			{
-				my_path = strcat(token_2, "/");
-				my_path_2 = strcat(my_path, args[0]);
-				if (access(my_path_2, X_OK) == 0)
+				my_path = malloc(sizeof(char) * (strlen(token) + strlen(args[0]) + 2));
+				sprintf(my_path,"%s/%s",token,args[0]);
+				
+				if (access(my_path, X_OK) == 0)
 				{
 					free(args[0]);
-					args[0] = malloc(strlen(my_path_2) + 1);
-					strcpy(args[0], my_path_2);
+					args[0] = malloc(strlen(my_path) + 1);
+					strcpy(args[0], my_path);
+					free(my_path);
+					free(path_copy);
 					return (args);
 				}
-				token_2 = strtok(NULL, ":");
+				token = strtok(NULL, ":");
+				free(my_path);
 			}
+			free(path_copy);
 		}
 		i++;
 	}
