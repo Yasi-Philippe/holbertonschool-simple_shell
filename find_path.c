@@ -24,8 +24,7 @@ char **find_path(char *args[], char **env)
 			while (token)
 			{
 				my_path = malloc(sizeof(char) * (strlen(token) + strlen(args[0]) + 2));
-				sprintf(my_path,"%s/%s",token,args[0]);
-				
+				sprintf(my_path, "%s/%s", token, args[0]);
 				if (access(my_path, X_OK) == 0)
 				{
 					free(args[0]);
