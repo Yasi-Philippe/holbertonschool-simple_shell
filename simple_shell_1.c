@@ -27,6 +27,12 @@ int main(int ac, char **av, char **env)
 		args = arr_strtok(str);
 		if (!args)
 			continue;
+		if (args[0] == "exit")
+		{
+			free_args(args);
+			printf("exit");
+			break;
+		}
 		if (access(args[0], X_OK) != 0)
 		{
 			if (!find_path(args, env))
