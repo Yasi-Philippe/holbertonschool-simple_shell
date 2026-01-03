@@ -28,7 +28,7 @@ int main(int ac, char **av, char **env)
 		if (!args)
 			continue;
 		if (strcmp(args[0], "exit") == 0)
-			exit_shell(args);
+		  exit_shell(args);
 		if (access(args[0], X_OK) != 0)
 		{
 			if (!find_path(args, env))
