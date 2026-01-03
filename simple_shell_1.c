@@ -25,8 +25,17 @@ int main(int ac, char **av, char **env)
 		nread = getline(&str, &len, stdin);
 		if (nread == -1)
 			break;
+<<<<<<< HEAD
 		commands = arr_strtok(str, "\n");
 		while (commands[i])
+=======
+		args = arr_strtok(str);
+		if (!args)
+			continue;
+		if (strcmp(args[0], "exit") == 0)
+		  exit_shell(args);
+		if (access(args[0], X_OK) != 0)
+>>>>>>> f2f82da5daa1d7f710d002f39f687d37e46dcbb2
 		{
 			args = arr_strtok(commands[i], " ");
 			if (!args)
