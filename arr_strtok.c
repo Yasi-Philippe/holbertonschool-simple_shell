@@ -3,9 +3,10 @@
 /**
  * arr_strtok - Takes a string as input and returns an array of strings.
  * @str: Input string.
+ * @separator: Character to split the string.
  * Return: An array of strings.
  */
-char **arr_strtok(char *str)
+char **arr_strtok(char *str, char *separator)
 {
 	char *token;
 	char **args;
@@ -23,7 +24,7 @@ char **arr_strtok(char *str)
 		free(str);
 		exit(1);
 	}
-	token = strtok(str, "\n ");
+	token = strtok(str, separator);
 	i = 0;
 	while (token)
 	{
@@ -39,7 +40,7 @@ char **arr_strtok(char *str)
 			exit(1);
 		}
 		strcpy(args[i], token);
-		token = strtok(NULL, "\n ");
+		token = strtok(NULL, separator);
 		i++;
 	}
 	free(str);
