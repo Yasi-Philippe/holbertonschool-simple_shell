@@ -10,12 +10,13 @@
  */
 int main(int ac, char **av, char **env)
 {
-	size_t len;
+	size_t len, i = 0;
 	ssize_t nread;
 	char *str;
-	char **args;
+	char **args, **commands;
 	(void)av;
 	(void)ac;
+
 
 	while (1)
 	{
@@ -24,28 +25,34 @@ int main(int ac, char **av, char **env)
 		nread = getline(&str, &len, stdin);
 		if (nread == -1)
 			break;
-		args = arr_strtok(str);
-		if (!args)
-			continue;
-		if (strcmp(args[0], "exit") == 0)
-			exit_shell(args);
-		if (access(args[0], X_OK) != 0)
+		commands = arr_strtok(str, "\n");
+		while (commands[i])
 		{
-			if (!find_path(args, env))
+			args = arr_strtok(commands[i], " ");
+			if (!args)
+				continue;
+			if (strcmp(args[0], "exit") == 0)
+				exit_shell(args);
+			if (access(args[0], X_OK) != 0)
 			{
-				perror("Error");
+				if (!find_path(args, env))
+				{
+					perror("Error");
+					free_args(args);
+					continue;
+				}
+			}
+			if (!args)
+			{
 				free_args(args);
 				continue;
 			}
-		}
-		if (!args)
-		{
+			fork_shell(args, env);
 			free_args(args);
-			continue;
+			i++;
 		}
-		fork_shell(args, env);
-		free_args(args);
+		i = 0;
 	}
-	free(str);
+	free_args(commands);
 	return (0);
 }
