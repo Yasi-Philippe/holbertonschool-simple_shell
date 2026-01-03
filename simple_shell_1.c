@@ -22,7 +22,7 @@ int main(int ac, char **av, char **env)
 		str = NULL;
 		args = NULL;
 		nread = getline(&str, &len, stdin);
-		if (nread == -1)
+		if (nread == -1 || strncmp(str, "exit", 4) == 0)
 			break;
 		args = arr_strtok(str);
 		if (!args)
