@@ -13,14 +13,23 @@ char **find_path(char *args[], char **env)
 	char *my_path;
 	char *path_copy;
 
+	if (!env)
+	{
+		return (NULL);
+	}
 	while (env[i])
 	{
-		if (strncmp(env[i], "PATH", 4) == 0)
+		if (strncmp(env[i], "PATH=", 5) == 0)
 		{
 			path_copy = malloc(sizeof(char) * (strlen(env[i]) + 1));
 			strcpy(path_copy, env[i]);
 			token = strtok(path_copy, "=");
 			token = strtok(NULL, ":");
+			if (!token)
+			{
+				free(path_copy);
+				return (NULL);
+			}
 			while (token)
 			{
 				my_path = malloc(sizeof(char) * (strlen(token) + strlen(args[0]) + 2));
