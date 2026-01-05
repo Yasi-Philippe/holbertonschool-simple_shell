@@ -20,12 +20,29 @@ int main(int ac, char **av, char **env)
 	while (1)
 	{
 		str = NULL;
+		args = NULL;
 		nread = getline(&str, &len, stdin);
 		if (nread == -1)
 			break;
 		args = arr_strtok(str);
 		if (!args)
 			continue;
+		if (strcmp(args[0], "exit") == 0)
+		  exit_shell(args);
+		if (access(args[0], X_OK) != 0)
+		{
+			if (!find_path(args, env))
+			{
+				perror("Error");
+				free_args(args);
+				continue;
+			}
+		}
+		if (!args)
+		{
+			free_args(args);
+			continue;
+		}
 		fork_shell(args, env);
 		free_args(args);
 	}
