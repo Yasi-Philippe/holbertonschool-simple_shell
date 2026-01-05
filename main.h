@@ -10,7 +10,7 @@
 #include <sys/stat.h>
 
 void fork_shell(char *args[], char **env);
-char **arr_strtok(char *str);
+char **arr_strtok(char *str, char *separator);
 size_t strtok_arr_len(char *str);
 void free_args(char **args);
 char **find_path(char *args[], char **env);
