@@ -10,49 +10,26 @@
  */
 int main(int ac, char **av, char **env)
 {
-	size_t len, i = 0;
+	size_t len;
 	ssize_t nread;
 	char *str;
-	char **args, **commands;
+	char **commands;
 	(void)av;
 	(void)ac;
 
 
 	while (1)
 	{
+		printf("$ ");
 		str = NULL;
-		args = NULL;
+		commands = NULL;
 		nread = getline(&str, &len, stdin);
 		if (nread == -1)
 			break;
 		commands = arr_strtok(str, "\n");
-		while (commands[i])
-		{
-			args = arr_strtok(commands[i], " ");
-			if (!args)
-				continue;
-			if (strcmp(args[0], "exit") == 0)
-				exit_shell(args);
-			if (access(args[0], X_OK) != 0)
-			{
-				if (!find_path(args, env))
-				{
-					perror("Error");
-					free_args(args);
-					continue;
-				}
-			}
-			if (!args)
-			{
-				free_args(args);
-				continue;
-			}
-			fork_shell(args, env);
-			free_args(args);
-			i++;
-		}
-		i = 0;
+		simple_shell_2(commands, env);
+		free(commands);
 	}
-	free_args(commands);
+	free(str);
 	return (0);
 }
