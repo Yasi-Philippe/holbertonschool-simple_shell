@@ -10,14 +10,23 @@ void ev_exec_cmd(char **commands, char **env)
 	size_t i = 0;
 	char **args = NULL;
 
+	if (!commands)
+		return;
 	while (commands[i])
 	{
 		args = NULL;
 		args = arr_strtok(commands[i], " \n");
 		if (!args)
-			return;
+		{
+			i++;
+			continue;
+		}
 		if (!args[0])
-			return;
+		{
+			i++;
+			free_args(args);
+			continue;
+		}
 		if (strcmp(args[0], "exit") == 0)
 			exit_shell(args, commands);
 		if (strcmp(args[0], "env") == 0)
