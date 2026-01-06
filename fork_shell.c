@@ -36,5 +36,6 @@ void fork_shell(char *args[], char **env)
 			perror("Error");
 			exit(1);
 		}
+		free_args(args);
 	}
 }
