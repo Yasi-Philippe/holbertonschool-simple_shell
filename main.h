@@ -15,7 +15,7 @@ size_t strtok_arr_len(char *str);
 void free_args(char **args);
 char **find_path(char *args[], char **env);
 void exit_shell(char **args, char **commands);
-void simple_shell_2(char **commands, char **env);
+void ev_exec_cmd(char **commands, char **env);
 void print_env(char **env);
 
 #endif
