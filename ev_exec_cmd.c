@@ -24,7 +24,8 @@ void ev_exec_cmd(char **commands, char **env)
 		{
 			print_env(env);
 			free_args(args);
-			return;
+			i++;
+			continue;
 		}
 		if (access(args[0], X_OK) != 0)
 		{
@@ -32,7 +33,8 @@ void ev_exec_cmd(char **commands, char **env)
 			{
 				perror("Error");
 				free_args(args);
-				return;
+				i++;
+				continue;
 			}
 		}
 		if (!args)
