@@ -4,14 +4,15 @@
  * ev_exec_cmd - Shell Function. Evaluates commands and executes them.
  * @commands: Array of strings with the commands.
  * @env: Environment to pass into the children processes.
+ * Return: Int of exit status.
  */
-void ev_exec_cmd(char **commands, char **env)
+int ev_exec_cmd(char **commands, char **env, char **prg)
 {
 	size_t i = 0;
 	char **args = NULL;
 
 	if (!commands)
-		return;
+		return (0);
 	while (commands[i])
 	{
 		args = NULL;
@@ -36,22 +37,28 @@ void ev_exec_cmd(char **commands, char **env)
 			i++;
 			continue;
 		}
+		if (access(args[0], X_OK) == 0 && args[0][0] != '/' && args[0][0] != '.')
+		{
+			fprintf(stderr, "%s: %ld: %s: not found\n", prg[0], i + 1, args[0]);
+			free_args(args);
+			return (127);
+		}
 		if (access(args[0], X_OK) != 0)
 		{
 			if (!find_path(args, env))
 			{
-				perror("Error");
+				fprintf(stderr, "%s: %ld: %s: not found\n", prg[0], i + 1, args[0]);
 				free_args(args);
-				i++;
-				continue;
+				return (127);
 			}
 		}
 		if (!args)
 		{
 			free_args(args);
-			return;
+			return (0);
 		}
 		fork_shell(args, env);
 		i++;
 	}
+	return (0);
 }

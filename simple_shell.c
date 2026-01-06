@@ -14,8 +14,7 @@ int main(int ac, char **av, char **env)
 	ssize_t nread;
 	char *str;
 	char **commands;
-	int interactive;
-	(void)av;
+	int interactive, status = 0;
 	(void)ac;
 
 	interactive = isatty(STDIN_FILENO);
@@ -33,9 +32,9 @@ int main(int ac, char **av, char **env)
 			break;
 		}
 		commands = arr_strtok(str, "\n");
-		ev_exec_cmd(commands, env);
+		status = ev_exec_cmd(commands, env, av);
 		free(commands);
 	}
 	free(str);
-	return (0);
+	return (status);
 }
