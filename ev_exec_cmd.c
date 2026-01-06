@@ -12,6 +12,7 @@ void ev_exec_cmd(char **commands, char **env)
 
 	while (commands[i])
 	{
+		args = NULL;
 		args = arr_strtok(commands[i], " \n");
 		if (!args || !args[0])
 			return;
