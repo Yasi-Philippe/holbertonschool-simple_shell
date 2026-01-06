@@ -13,7 +13,7 @@ void ev_exec_cmd(char **commands, char **env)
 	while (commands[i])
 	{
 		args = arr_strtok(commands[i], " ");
-		if (!args)
+		if (!args || !args[0])
 			return;
 		if (strcmp(args[0], "exit") == 0)
 			exit_shell(args, commands);
