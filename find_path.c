@@ -18,7 +18,7 @@ char **find_path(char *args[], char **env)
 		return (NULL);
 	while (env[i])
 	{
-		path_found = strncmp(env[i], "PATH=", 5);
+		path_found = strncmp(env[i], "PATH", 4);
 		if (!path_found)
 		{
 			path_copy = malloc(sizeof(char) * (strlen(env[i]) + 1));
