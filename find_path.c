@@ -13,10 +13,8 @@ char **find_path(char *args[], char **env)
 	char *my_path;
 	char *path_copy;
 
-	if (!env)
-	{
+	if (!env || !args)
 		return (NULL);
-	}
 	while (env[i])
 	{
 		if (strncmp(env[i], "PATH=", 5) == 0)

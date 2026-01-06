@@ -13,38 +13,28 @@ int main(int ac, char **av, char **env)
 	size_t len;
 	ssize_t nread;
 	char *str;
-	char **args;
+	char **commands;
+	int interactive;
 	(void)av;
 	(void)ac;
 
+	interactive = isatty(STDIN_FILENO);
 	while (1)
 	{
+		if (interactive)
+			printf("$ ");
 		str = NULL;
-		args = NULL;
+		commands = NULL;
 		nread = getline(&str, &len, stdin);
 		if (nread == -1)
+		{
+			if (interactive)
+				printf("\n");
 			break;
-		args = arr_strtok(str);
-		if (!args)
-			continue;
-		if (strcmp(args[0], "exit") == 0)
-		  exit_shell(args);
-		if (access(args[0], X_OK) != 0)
-		{
-			if (!find_path(args, env))
-			{
-				perror("Error");
-				free_args(args);
-				continue;
-			}
 		}
-		if (!args)
-		{
-			free_args(args);
-			continue;
-		}
-		fork_shell(args, env);
-		free_args(args);
+		commands = arr_strtok(str, "\n");
+		ev_exec_cmd(commands, env);
+		free(commands);
 	}
 	free(str);
 	return (0);
