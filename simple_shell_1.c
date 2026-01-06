@@ -14,18 +14,24 @@ int main(int ac, char **av, char **env)
 	ssize_t nread;
 	char *str;
 	char **commands;
+	int interactive;
 	(void)av;
 	(void)ac;
 
-
+	interactive = isatty(STDIN_FILENO);
 	while (1)
 	{
-		printf("$ ");
+		if (interactive)
+			printf("$ ");
 		str = NULL;
 		commands = NULL;
 		nread = getline(&str, &len, stdin);
 		if (nread == -1)
+		{
+			if (interactive)
+				printf("\n");
 			break;
+		}
 		commands = arr_strtok(str, "\n");
 		simple_shell_2(commands, env);
 		free(commands);
