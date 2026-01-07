@@ -6,11 +6,10 @@
  * @env: Environment to pass into the children processes.
  * Return: Int of exit status.
  */
-int ev_exec_cmd(char **commands, char **env, char **prg)
+int ev_exec_cmd(char **commands, char **env, char **prg, int status)
 {
 	size_t i = 0;
 	char **args = NULL;
-	int status = 0;
 
 	if (!commands)
 		return (0);
