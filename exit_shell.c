@@ -5,9 +5,9 @@
  * @args: Array of command and its arguments.
  * Return: void
  */
-void exit_shell(char **args, char **commands)
+void exit_shell(char **args, char **commands, int status)
 {
 	free_args(args);
 	free(commands);
-	exit(0);
+	exit(status);
 }

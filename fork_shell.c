@@ -5,9 +5,10 @@
  * executes the program linked to the comand given in the child processus.
  * @args: Array of strings containing the input words.
  * @env: ENvironment.
+ * Return: Returns int, status value
  */
 
-void fork_shell(char *args[], char **env)
+int fork_shell(char *args[], char **env)
 {
 	pid_t child_pid;
 	int status;
@@ -34,8 +35,9 @@ void fork_shell(char *args[], char **env)
 		{
 			free_args(args);
 			perror("Error");
-			exit(2);
+			exit(status);
 		}
 		free_args(args);
 	}
+	return (status);
 }
