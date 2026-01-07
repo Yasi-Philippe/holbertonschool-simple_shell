@@ -66,5 +66,5 @@ int ev_exec_cmd(char **commands, char **env, char **prg)
 		fork_shell(args, env);
 		i++;
 	}
-	return (0);
+	return (2);
 }
