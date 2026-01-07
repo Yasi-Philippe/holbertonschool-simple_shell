@@ -198,6 +198,50 @@ Then type a few commands and exit. Expected result:
 ## Flowchart
 
 Here we see how the shell operation works thanks to the flowchart:
+```mermaid
+flowchart TD
+    A@{ shape: stadium, label: "START
+    Shell" } --> B[Check interactive mode]
+    B --> C{Infinite loop}
+
+    C --> D{If interactive}
+    D -->|Yes| E[Print $]
+    D -->|No| G
+
+    E --> G[Read input]
+
+    G --> H{If EOF; Ctrl + D}
+    H -->|Yes| Z@{ shape: stadium, label: "Exit program. Return last status number." }
+
+    H -->|No| J[Split commands with strtok]
+    J --> K[Execute commands]
+    K --> L{While there are still commands}
+    L -->|True| M[Split command and arguments using strtok]
+    M --> N{If command is:}
+    N --> O[env: Print env]
+    N --> P[exit: exit program]
+    N --> Q[Other: Continue]
+    P --> Z
+    Q --> R{If Command starts by '.' or by '/'}
+    O -->|Next Command| L
+
+    R -->|Yes| S{if command is an executable file}
+    S -->|Yes| T(fork process)
+    T --> U[Child process executes the command]
+    T --> V[Parent process waits for the child process to end and terminates it]
+    V -->|Next Command| L
+
+    R -->|No| W[Search PATH Var in env]
+    W --> X{Look for PATH in env.
+    if PATH is found}
+    X --> |Yes| Y[Create absolute path concatenating PATH and Command]
+    Y --> S
+
+    S -->|No| AA[Print Error]
+    AA -->|Next Command| L
+    X --> |PATH not found| AA
+    L -->|No more commands| C
+```
 
 ## Additional Information
 
