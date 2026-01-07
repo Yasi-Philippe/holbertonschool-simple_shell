@@ -4,9 +4,9 @@
  * find_path - Function that finds the full path of a command.
  * @args: Array of command and its arguments.
  * @env: Environment variables.
- * Return: Full path of the command, or NULL if not found.
+ * Return: 1 if Path is found. 0 if Path is not found.
  */
-char **find_path(char *args[], char **env)
+int find_path(char *args[], char **env)
 {
 	size_t i = 0;
 	char *token;
@@ -15,7 +15,7 @@ char **find_path(char *args[], char **env)
 	int path_found;
 
 	if (!env || !args)
-		return (NULL);
+		return (0);
 	while (env[i])
 	{
 		path_found = strncmp(env[i], "PATH", 4);
@@ -28,7 +28,7 @@ char **find_path(char *args[], char **env)
 			if (!token)
 			{
 				free(path_copy);
-				return (NULL);
+				return (0);
 			}
 			while (token)
 			{
@@ -41,7 +41,7 @@ char **find_path(char *args[], char **env)
 					strcpy(args[0], my_path);
 					free(my_path);
 					free(path_copy);
-					return (args);
+					return (1);
 				}
 				token = strtok(NULL, ":");
 				free(my_path);
@@ -50,5 +50,5 @@ char **find_path(char *args[], char **env)
 		}
 		i++;
 	}
-	return (NULL);
+	return (0);
 }
