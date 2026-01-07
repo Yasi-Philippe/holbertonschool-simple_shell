@@ -37,13 +37,7 @@ int ev_exec_cmd(char **commands, char **env, char **prg)
 			i++;
 			continue;
 		}
-		if (access(args[0], X_OK) == 0 && args[0][0] != '/' && args[0][0] != '.')
-		{
-			fprintf(stderr, "%s: %ld: %s: not found\n", prg[0], i + 1, args[0]);
-			free_args(args);
-			return (127);
-		}
-		if (access(args[0], X_OK) != 0)
+		if (args[0][0] != '.' && args[0][0] != '/')
 		{
 			if (!find_path(args, env))
 			{
@@ -51,7 +45,19 @@ int ev_exec_cmd(char **commands, char **env, char **prg)
 				free_args(args);
 				return (127);
 			}
+			else
+			{
+				fork_shell(args, env);
+				i++;
+				continue;
+			}
 		}
+		if (access(args[0], X_OK) != 0)
+			{
+				fprintf(stderr, "%s: %ld: %s: not found\n", prg[0], i + 1, args[0]);
+				free_args(args);
+				return (127);
+			}
 		if (!args)
 		{
 			free_args(args);
@@ -60,5 +66,5 @@ int ev_exec_cmd(char **commands, char **env, char **prg)
 		fork_shell(args, env);
 		i++;
 	}
-	return (0);
+	return (2);
 }
