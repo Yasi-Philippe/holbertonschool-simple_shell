@@ -32,7 +32,7 @@ int main(int ac, char **av, char **env)
 			break;
 		}
 		commands = arr_strtok(str, "\n");
-		status = ev_exec_cmd(commands, env, av);
+		status = ev_exec_cmd(commands, env, av, status);
 		free(commands);
 	}
 	free(str);
