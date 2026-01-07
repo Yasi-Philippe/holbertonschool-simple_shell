@@ -10,6 +10,7 @@ int ev_exec_cmd(char **commands, char **env, char **prg)
 {
 	size_t i = 0;
 	char **args = NULL;
+	int status = 0;
 
 	if (!commands)
 		return (0);
@@ -29,7 +30,7 @@ int ev_exec_cmd(char **commands, char **env, char **prg)
 			continue;
 		}
 		if (strcmp(args[0], "exit") == 0)
-			exit_shell(args, commands);
+			exit_shell(args, commands, status);
 		if (strcmp(args[0], "env") == 0)
 		{
 			print_env(env);
@@ -43,11 +44,12 @@ int ev_exec_cmd(char **commands, char **env, char **prg)
 			{
 				fprintf(stderr, "%s: %ld: %s: not found\n", prg[0], i + 1, args[0]);
 				free_args(args);
-				return (127);
+				status = 127;
+				return (status);
 			}
 			else
 			{
-				fork_shell(args, env);
+				status = fork_shell(args, env);
 				i++;
 				continue;
 			}
@@ -56,15 +58,16 @@ int ev_exec_cmd(char **commands, char **env, char **prg)
 			{
 				fprintf(stderr, "%s: %ld: %s: not found\n", prg[0], i + 1, args[0]);
 				free_args(args);
-				return (127);
+				status = 127;
+				return (status);
 			}
 		if (!args)
 		{
 			free_args(args);
 			return (0);
 		}
-		fork_shell(args, env);
+		status = fork_shell(args, env);
 		i++;
 	}
-	return (2);
+	return (0);
 }
