@@ -25,8 +25,9 @@ int fork_shell(char *args[], char **env)
 		if (execve(args[0], args, env) == -1)
 		{
 			free_args(args);
+			status = 2;
 			perror("Error");
-			exit(0);
+			exit(status);
 		}
 	}
 	else
@@ -35,6 +36,7 @@ int fork_shell(char *args[], char **env)
 		{
 			free_args(args);
 			perror("Error");
+			status = 2;
 			exit(status);
 		}
 		free_args(args);

@@ -8,11 +8,8 @@
  */
 int find_path(char *args[], char **env)
 {
-	size_t i = 0;
-	char *token;
-	char *my_path;
-	char *path_copy;
-	int path_found;
+	char *token, *my_path, *path_copy;
+	int path_found, i = 0;
 
 	if (!env || !args)
 		return (0);
