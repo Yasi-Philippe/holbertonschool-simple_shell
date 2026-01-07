@@ -60,10 +60,10 @@ cd holbertonschool-simple_shell
 Compile all the source files using gcc with the flags listed in the rerquirements:
 
 ```bash
-gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh
+gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o simple_shell
 ```
 
-If the compilation is succesful, a new file named hsh should be created.
+If the compilation is succesful, a new file named simple_shell should be created.
 
 ### 4 Launching the shell
 
@@ -72,7 +72,7 @@ If the compilation is succesful, a new file named hsh should be created.
 To run the program in **interactive mode**, execute it with:
 
 ```bash
-./hsh
+./simple_shell
 ```
 
 You should see the following prompt:
@@ -121,7 +121,7 @@ You can also exit the shell by pressing **Ctrl + D**.
 From standard input, the shell can execute commands like this in **non-interactive mode**:
 
 ```bash
-echo "/bin/ls" | ./hsh
+echo "/bin/ls" | ./simple_shell
 ```
 
 ### 7 Error
@@ -130,7 +130,7 @@ When a command does not exist or is not supported by the shell, the program prin
 
 ```bash
 $ yasi
-./hsh: No such file or directory
+./simple_shell: No such file or directory
 ```
 
 ### 8 Exiting the program
@@ -172,7 +172,7 @@ man ./man_1_simple_shell
 ## Testing
 
 - Launch in interactive and non-interactive mode (with the examples given above)
-- Test commands (/bin/ls), relative (./hsh), and PATH commands (ls)
+- Test commands (/bin/ls), relative (./simple_shell), and PATH commands (ls)
 - Test built-ins **exit** and **env**
 - Test **Ctrl+D** and **exit** to exit cleanly
 - Test empty lines or lines containing spaces only
@@ -180,7 +180,7 @@ man ./man_1_simple_shell
 ### Memory Leak Check with Valgrind
 
 ```bash
-valgrind ./hsh
+valgrind ./simple_shell
 ```
 
 Then type a few commands and exit. Expected result:
@@ -198,6 +198,50 @@ Then type a few commands and exit. Expected result:
 ## Flowchart
 
 Here we see how the shell operation works thanks to the flowchart:
+```mermaid
+flowchart TD
+    A@{ shape: stadium, label: "START
+    Shell" } --> B[Check interactive mode]
+    B --> C{Infinite loop}
+
+    C --> D{If interactive}
+    D -->|Yes| E[Print $]
+    D -->|No| G
+
+    E --> G[Read input]
+
+    G --> H{If EOF; Ctrl + D}
+    H -->|Yes| Z@{ shape: stadium, label: "Exit program. Return last status number." }
+
+    H -->|No| J[Split commands with strtok]
+    J --> K[Execute commands]
+    K --> L{While there are still commands}
+    L -->|True| M[Split command and arguments using strtok]
+    M --> N{If command is:}
+    N --> O[env: Print env]
+    N --> P[exit: exit program]
+    N --> Q[Other: Continue]
+    P --> Z
+    Q --> R{If Command starts by '.' or by '/'}
+    O -->|Next Command| L
+
+    R -->|Yes| S{if command is an executable file}
+    S -->|Yes| T(fork process)
+    T --> U[Child process executes the command]
+    T --> V[Parent process waits for the child process to end and terminates it]
+    V -->|Next Command| L
+
+    R -->|No| W[Search PATH Var in env]
+    W --> X{Look for PATH in env.
+    if PATH is found}
+    X --> |Yes| Y[Create absolute path concatenating PATH and Command]
+    Y --> S
+
+    S -->|No| AA[Print Error]
+    AA -->|Next Command| L
+    X --> |PATH not found| AA
+    L -->|No more commands| C
+```
 
 ## Additional Information
 

@@ -1,0 +1,139 @@
+#!/usr/bin/env man
+
+.TH simple_shell 1
+.Dd 01/2026
+.Dt simple_shell
+.Os Linux
+.Sh NAME
+.Nm simple_shell
+.Nd simple UNIX command line interpreter
+.Sh SYNOPSIS
+.Nm simple_shell
+.Sh DESCRIPTION
+The
+.Nm
+program is a simple UNIX command line interpreter that reads commands
+from standard input and executes them.
+
+It works in both interactive and non-interactive modes.
+The shell displays a prompt then takes the user input, searches for executable
+files using the PATH environment variable and executes programs.
+
+The shell supports basic command execution and a limited set of
+built-in commands (exit and env).
+.Sh FEATURES
+.Bl -bullet
+.It
+Displays a prompt ("$ ") in interactive mode
+.It
+Executes commands with arguments
+.It
+Searches for executables in directories listed in PATH
+.It
+Supports built-in commands:
+.Cm exit
+and
+.Cm env
+.It
+Handles absolute paths and relative paths
+.It
+Works in non-interactive mode using standard input
+.El
+.Sh BUILT-IN COMMANDS
+.Bl -tag -width indent
+.It Cm exit
+Exits the shell and terminates the program.
+.It Cm env
+Prints the current environment variables.
+.El
+.Sh USAGE
+.Sh Interactive mode
+To start the shell in interactive mode, run:
+.Pp
+.Dl ./simple_shell
+.Pp
+The shell will display a prompt and wait for user input.
+.Sh Non-interactive mode
+The shell can read commands from standard input:
+.Pp
+.Dl echo "/bin/ls" | ./simple_shell
+.Pp
+Or from a file:
+.Pp
+.Dl cat script | ./simple_shell
+.Sh EXAMPLES
+.Pp
+.Bl -tag -width indent
+.It ./simple_shell
+Starts the shell in interactive mode.
+.It ls -l
+Lists files in the current directory.
+.It /bin/pwd
+Prints the current working directory.
+.It env
+Prints the environment variables.
+.It exit
+Exits the shell.
+.El
+.Sh FILES
+.Pp
+.Bl -tag -width indent
+.It main.h
+Header file containing function prototypes and includes.
+.It simple_shell.c
+Main loop of the shell, reads input and processes commands.
+.It arr_strtok.c
+Splits a string into an array of tokens.
+.It strtok_arr_len.c
+Calculates the number of tokens needed for allocation.
+.It ev_exec_cmd.c
+Evaluates commands and handles built-ins and execution logic.
+.It fork_shell.c
+Forks processes and executes commands.
+.It find_path.c
+Searches for executable paths using PATH.
+.It print_env.c
+Prints environment variables.
+.It free_args.c
+Frees a 2D array of strings.
+.It exit_shell.c
+Handles exiting the shell.
+.El
+.Sh RETURN VALUE
+.Pp
+The simple_shell program returns the exit status of the last command written in the shell.
+.Pp
+.Bl -tag -width indent
+.It 0
+Returned when no command is executed or when input is simply empty.
+.It 2
+Returned after a successful command execution.
+.It 127
+Returned when a command is not found in the system.
+.El
+.Pp
+The shell terminates immediately when the built-in command
+.Cm exit
+is executed or when an end-of-file condition (Ctrl+D) is received.
+
+.Sh ERRORS
+If a command cannot be found or executed, the shell prints an error
+message to standard error and continues execution.
+.Sh BUGS
+This shell does not support:
+.Pp
+.Bl -bullet
+.It
+Pipes
+.It
+Redirections
+.It
+Logical operators (&&, ||)
+.It
+Command separators (;)
+.It
+Signal handling (Ctrl+C)
+.El
+.Sh AUTHORS
+.Pp
+Written by Yasi Hubner & Allix Robin.
