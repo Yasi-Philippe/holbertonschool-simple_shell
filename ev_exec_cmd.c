@@ -46,6 +46,12 @@ int ev_exec_cmd(char **commands, char **env, char **prg)
 				return (127);
 			}
 		}
+		if (args[0][0] != '/')
+			{
+				fprintf(stderr, "%s: %ld: %s: not found\n", prg[0], i + 1, args[0]);
+				free_args(args);
+				return (127);
+			}
 		if (!args)
 		{
 			free_args(args);
