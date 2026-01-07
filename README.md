@@ -60,10 +60,10 @@ cd holbertonschool-simple_shell
 Compile all the source files using gcc with the flags listed in the rerquirements:
 
 ```bash
-gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh
+gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o simple_shell
 ```
 
-If the compilation is succesful, a new file named hsh should be created.
+If the compilation is succesful, a new file named simple_shell should be created.
 
 ### 4 Launching the shell
 
@@ -72,7 +72,7 @@ If the compilation is succesful, a new file named hsh should be created.
 To run the program in **interactive mode**, execute it with:
 
 ```bash
-./hsh
+./simple_shell
 ```
 
 You should see the following prompt:
@@ -121,7 +121,7 @@ You can also exit the shell by pressing **Ctrl + D**.
 From standard input, the shell can execute commands like this in **non-interactive mode**:
 
 ```bash
-echo "/bin/ls" | ./hsh
+echo "/bin/ls" | ./simple_shell
 ```
 
 ### 7 Error
@@ -130,7 +130,7 @@ When a command does not exist or is not supported by the shell, the program prin
 
 ```bash
 $ yasi
-./hsh: No such file or directory
+./simple_shell: No such file or directory
 ```
 
 ### 8 Exiting the program
@@ -172,7 +172,7 @@ man ./man_1_simple_shell
 ## Testing
 
 - Launch in interactive and non-interactive mode (with the examples given above)
-- Test commands (/bin/ls), relative (./hsh), and PATH commands (ls)
+- Test commands (/bin/ls), relative (./simple_shell), and PATH commands (ls)
 - Test built-ins **exit** and **env**
 - Test **Ctrl+D** and **exit** to exit cleanly
 - Test empty lines or lines containing spaces only
@@ -180,7 +180,7 @@ man ./man_1_simple_shell
 ### Memory Leak Check with Valgrind
 
 ```bash
-valgrind ./hsh
+valgrind ./simple_shell
 ```
 
 Then type a few commands and exit. Expected result:
