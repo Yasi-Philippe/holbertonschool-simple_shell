@@ -37,7 +37,7 @@ int ev_exec_cmd(char **commands, char **env, char **prg)
 			i++;
 			continue;
 		}
-		if (access(args[0], X_OK) != 0 && args[0][0] != '/' && args[0][0] != '.')
+		if (access(args[0], X_OK) != 0 && args[0][0] != '/')
 		{
 			if (!find_path(args, env))
 			{
