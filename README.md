@@ -116,7 +116,7 @@ Which is pretty self explanatory and **exits the shell**.
 
 You can also exit the shell by pressing **Ctrl + D**.
 
-###7 Non-interactive mode
+### 6 Non-interactive mode
 
 From standard input, the shell can execute commands like this in **non-interactive mode**:
 
@@ -124,7 +124,7 @@ From standard input, the shell can execute commands like this in **non-interacti
 echo "/bin/ls" | ./hsh
 ```
 
-###8 Error
+### 7 Error
 
 When a command does not exist or is not supported by the shell, the program prints an error message and then continues running:
 
@@ -133,7 +133,7 @@ $ yasi
 ./hsh: No such file or directory
 ```
 
-###9 Exiting the program
+### 8 Exiting the program
 
 There are **2 ways** of exiting the shell:
 
