@@ -25,7 +25,7 @@ void fork_shell(char *args[], char **env)
 		{
 			free_args(args);
 			perror("Error");
-			exit(127);
+			exit(2);
 		}
 	}
 	else
